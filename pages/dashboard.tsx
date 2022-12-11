@@ -5,6 +5,8 @@ import { LogoutIcon } from '@heroicons/react/solid'
 import Layout from '../components/Layout'
 import UserInfo from '../components/UserInfo'
 import { useQueryClient } from '@tanstack/react-query'
+import TaskForm from '../components/TaskForm'
+import TaskList from '../components/TaskList'
 
 const Dashboard = () => {
   const router = useRouter()
@@ -12,6 +14,7 @@ const Dashboard = () => {
 
   const logout = async () => {
     queryClient.removeQueries(['users'])  // キャッシュにあるuserというキーの値をリムーブする
+    queryClient.removeQueries(['tasks'])  // キャッシュにあるtasksというキーの値をリムーブする
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`)
     router.push('/')
   }
@@ -22,6 +25,8 @@ const Dashboard = () => {
         onClick={logout}
       />
       <UserInfo />
+      <TaskForm />
+      <TaskList />
     </Layout>
   )
 }

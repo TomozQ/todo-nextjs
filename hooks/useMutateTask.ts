@@ -67,11 +67,15 @@ export const useMutateTask = () => {
     await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/todo/${id}`)
   },{
     onSuccess: (_, variables) => {
-      const previousTodos = queryClient.getQueryData<Task[]>(['task'])
+      const previousTodos = queryClient.getQueryData<Task[]>(['tasks'])
       if (previousTodos) {
         queryClient.setQueryData (
           ['tasks'],
-          previousTodos.filter((task) => task.id !== variables)   // vriablesには削除したタスクのidが入っている
+          previousTodos.filter((task) => {
+            console.log(task.id)
+            console.log(variables)
+            return task.id !== variables
+          })   // vriablesには削除したタスクのidが入っている
         )
       }
       reset()
